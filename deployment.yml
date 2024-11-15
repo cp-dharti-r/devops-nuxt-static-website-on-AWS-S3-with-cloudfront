@@ -9,9 +9,9 @@ Parameters:
     ConstraintDescription: Must end with non-numeric character.
   IAMuser:
     Type: String
-    Description: Name of the S3 bucket
-    AllowedPattern: ^.*[^0-9]$
-    ConstraintDescription: Must end with non-numeric character.
+    Description: Id of the IAM user
+    AllowedPattern: ^[a-zA-Z0-9]*$
+    ConstraintDescription: IAM user id can only contain letters and numbers.
 
 Outputs:
   S3BucketName:
