@@ -13,8 +13,8 @@
 - nuxt basic knowledge
 - AWS s3, cloudformation, clodfront basic knowledge
 - Set secrets to your repository
-  - AWS_REGION (AWS region)
-  - AWS_ACCESS_KEY_ID (AWS access key id)
-  - AWS_SECRET_ACCESS_KEY (AWS secret access key)
-  - AWS_BUCKET_NAME (AWS s3 bucket name)
-  - AWS_IAM_USER (IAM userid)
+  - `AWS_REGION` (AWS region)
+  - `AWS_ACCESS_KEY_ID` (AWS access key id)
+  - `AWS_SECRET_ACCESS_KEY` (AWS secret access key)
+  - `AWS_BUCKET_NAME` (AWS s3 bucket name)
+  - `AWS_IAM_USER` (IAM userid)
