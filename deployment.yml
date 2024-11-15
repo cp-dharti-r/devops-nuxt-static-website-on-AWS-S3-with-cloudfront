@@ -7,6 +7,11 @@ Parameters:
     Description: Name of the S3 bucket
     AllowedPattern: ^.*[^0-9]$
     ConstraintDescription: Must end with non-numeric character.
+  IAMuser:
+    Type: String
+    Description: Name of the S3 bucket
+    AllowedPattern: ^.*[^0-9]$
+    ConstraintDescription: Must end with non-numeric character.
 
 Outputs:
   S3BucketName:
@@ -98,4 +103,4 @@ Resources:
             Resource: !Sub "arn:aws:s3:::${S3BucketName}/*"
             Condition:
               StringEquals:
-                AWS:SourceArn: !Sub "arn:aws:cloudfront::339712997438:distribution/${CloudFrontDistribution}"
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::${IAMuser}:distribution/${CloudFrontDistribution}"

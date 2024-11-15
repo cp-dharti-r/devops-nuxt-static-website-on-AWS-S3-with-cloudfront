@@ -43,5 +43,5 @@ jobs:
           aws cloudformation deploy \
             --template-file deployment.yml \
             --stack-name dharti-nuxt-static-deployment-stack \
-            --parameter-overrides S3BucketName=${{ secrets.AWS_BUCKET_NAME }} \
+            --parameter-overrides S3BucketName=${{ secrets.AWS_BUCKET_NAME }} IAMuser=${{ secrets.AWS_IAM_USER }} \
             --capabilities CAPABILITY_NAMED_IAM
