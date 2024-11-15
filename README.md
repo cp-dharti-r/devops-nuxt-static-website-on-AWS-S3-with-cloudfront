@@ -4,8 +4,4 @@
 
 - Create SPA using a Static-site generator in Nuxt 3
 - Project has CI/CD to Generate a static website and deploy it on AWS S3
-
-### AWS setup:
-
-- Create S3 Bucket and Cloudfront distribution on the AWS console
-- Point Bucket link to Cloudfront origin
+- Deployment file also manage creation/updation of cloud formation stack and cloud front distribution along with OAC(Origin Access Control) for clod front to manage your website
