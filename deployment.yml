@@ -1,0 +1,101 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: A template for static hosting using S3 bucket and CloudFront
+
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: Name of the S3 bucket
+    AllowedPattern: ^.*[^0-9]$
+    ConstraintDescription: Must end with non-numeric character.
+
+Outputs:
+  S3BucketName:
+    Value:
+      Ref: S3Bucket
+    Export:
+      Name:
+        Fn::Sub: "dharti-nuxt-static-deployment"
+  CloudFrontDist:
+    Value:
+      Ref: CloudFrontDistribution
+    Export:
+      Name:
+        Fn::Sub: "dharti-nuxt-static-deployment-cloudfront-distribution"
+  OriginAccessControl:
+    Value:
+      Ref: CloudFrontOriginAccessControl
+    Export:
+      Name:
+        Fn::Sub: "OriginAccessControl"
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Ref S3BucketName
+
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Description: "origin access control(OAC) for allowing cloudfront to access S3 bucket"
+        Name: dharti-nuxt-static-deployment-OAC
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    DependsOn:
+      - S3Bucket
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !Sub "${S3BucketName}.s3.ap-south-1.amazonaws.com"
+            Id: dharti-nuxt-static-deployment
+            S3OriginConfig:
+              OriginAccessIdentity: ""
+            OriginAccessControlId: !GetAtt CloudFrontOriginAccessControl.Id
+        Enabled: "true"
+        DefaultRootObject: index.html
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        HttpVersion: http2
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          Compress: true
+          TargetOriginId: dharti-nuxt-static-deployment
+          ForwardedValues:
+            QueryString: "false"
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3BucketName
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: "cloudfront.amazonaws.com"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${S3BucketName}/*"
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub "arn:aws:cloudfront::339712997438:distribution/${CloudFrontDistribution}"
