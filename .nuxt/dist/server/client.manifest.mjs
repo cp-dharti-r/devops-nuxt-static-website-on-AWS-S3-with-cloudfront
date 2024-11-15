@@ -1,1 +1,0 @@
-export { default } from "file:///home/kaushik/Devops/devops-nuxt-static-website-on-AWS-S3-with-cloudfront/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
