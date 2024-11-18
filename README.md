@@ -17,4 +17,4 @@
   - `AWS_ACCESS_KEY_ID` (AWS access key id)
   - `AWS_SECRET_ACCESS_KEY` (AWS secret access key)
   - `AWS_BUCKET_NAME` (AWS s3 bucket name)
-  - `AWS_IAM_USER` (IAM userid)
+  - `AWS_IAM_USER` (IAM userid) (ex, 39xxxxxxxx08)
